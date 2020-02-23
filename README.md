@@ -3,13 +3,18 @@
 ## 这个 Demo 解答了什么问题？
 
 - JSX 和虚拟 DOM
+
   - 为什么只是写 `JSX` 就必须要引入 `React` ?
+
   - 为什么 `ReactDOM.render()` 必须要引入 `React` ?
   - 组件分为函数式组件和类组件，传入 `render()` 方法有什么区别？
 
-
-
-
+- 组件实现
+  
+  - `React` 如何区分 `Class组件` 和 `Function组件`？
+  - `Function组件` 如何转换为 `Class组件` ？
+  
+- 
 
 ## 环境配置
 
@@ -42,6 +47,3 @@ yarn global add parcel-bundler
   "plugins": ["@babel/plugin-transform-react-jsx"]
 }
 ```
-
-
-

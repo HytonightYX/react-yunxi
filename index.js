@@ -15,7 +15,7 @@ function FC() {
   )
 }
 
-class CC {
+class CC extends React.Component {
   render() {
     return (
       <div className="active" title="123">
@@ -25,9 +25,7 @@ class CC {
   }
 }
 
-console.log(<FC name={'我是函数组件'} />)
-
-ReactDOM.render(ele, document.querySelector('#root'))
+ReactDOM.render(<FC name={'我是函数组件'} />, document.querySelector('#root'))
 
 /* babel complier
 React.createElement(tag, attrs, ...rest)
