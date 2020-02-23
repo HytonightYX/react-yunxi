@@ -21,8 +21,8 @@
   
 - 实现生命周期
 
-  - 为何 `componnentWillMount` 和 `componentWillReceiveProps` 要被取缔？
-  - 
+  - 各个生命周期执行的时机？
+  - 代码层面如何实现的？
 
 
 
