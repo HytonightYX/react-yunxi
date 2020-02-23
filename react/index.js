@@ -1,10 +1,4 @@
-class Component {
-  constructor(props = {}) {
-    this.props = props
-    this.state = {}
-  }
-}
-Component.prototype.isReactComponent = { }
+import Component from './component'
 
 function createElement(tag, attrs, ...childrens) {
   return {
