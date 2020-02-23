@@ -32,9 +32,12 @@ function createComponent(comp, props) {
   return inst
 }
 
-// 
+/**
+ * 将类组件转为DOM
+ * @param {React.Component} comp 类组件
+ */
 function renderComponent(comp) {
-
+  // 拿到类组件中的JSX
   const compJSX = comp.render()
   // 根据 JSX 拿到 真实DOM
   comp.base = _render(compJSX)
@@ -52,7 +55,7 @@ function setComponentProps(comp, props) {
 }
 
 /**
- * 根据 虚拟DOM 生成 真实DOM
+ * 根据JSX对象生成DOM节点
  * @param {any} vnode JSX 对象
  */
 function _render(vnode) {
