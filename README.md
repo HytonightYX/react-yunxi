@@ -1,5 +1,7 @@
 # 手写一个简易 React
 
+
+
 ## 这个 Demo 解答了什么问题？
 
 - JSX 和虚拟 DOM
@@ -13,8 +15,11 @@
   
   - `React` 如何区分 `Class组件` 和 `Function组件`？
   - `Function组件` 如何转换为 `Class组件` ？
+  - 组件 -> `JSX`  -> `VDOM` -> `DOM` 的全流程？
   
 - 
+
+
 
 ## 环境配置
 
