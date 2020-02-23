@@ -1,3 +1,14 @@
+/**
+ * render 流程：
+ * 1.ReactDOM.render(comp, node)
+ * 2.将 comp 送入 _render() 函数
+ *    2.1 创建组件
+ *    2.2 setComponentProps() 来设置组件属性
+ *    2.3 渲染组件(将类组件转换为 DOM)
+ * 3.最后 DOM 回到render()，container.appendChild() 将 DOM 插入到 HTML 中
+ * 
+ */
+
 import React from '../react'
 const ReactDOM = {
   render
@@ -9,7 +20,8 @@ const ReactDOM = {
  * @param {any} container 节点
  */
 function render(vnode, container) {
-  return container.appendChild(_render(vnode))
+  const dom = _render(vnode)
+  return container.appendChild(dom)
 }
 
 function createComponent(comp, props) {
@@ -36,11 +48,30 @@ function createComponent(comp, props) {
  * 将类组件转为DOM
  * @param {React.Component} comp 类组件
  */
-function renderComponent(comp) {
+export function renderComponent(comp) {
   // 拿到类组件中的JSX
   const compJSX = comp.render()
+  const base = _render(compJSX)
+
+  // 这里可以实现 componentWillUpdate 方法
+  if (comp.base && comp.componentWillUpdate) {
+    comp.componentWillUpdate()
+  }
+
+  if (comp.base) {
+    if (comp.componentDidUpdate) {
+      comp.componentDidUpdate()
+    }
+  } else if (comp.componentDidMount) {
+    comp.componentDidMount()
+  }
+
+  // 节点整个替换
+  if (comp.base && comp.base.parentNode) {
+    comp.base.parentNode.replaceChild(base, comp.base)
+  }
   // 根据 JSX 拿到 真实DOM
-  comp.base = _render(compJSX)
+  comp.base = base
 }
 
 /**
@@ -49,6 +80,18 @@ function renderComponent(comp) {
  * @param {object} props 属性
  */
 function setComponentProps(comp, props) {
+
+  // comp 实例还没有被加载
+  // 可以实现 componentWillMount/componentWillReceiveProps 两个生命周期
+  if (!comp.base) {
+    if (comp.componentWillMount) {
+      comp.componentWillMount()
+    } else if (comp.componentWillReceiveProps) {
+      comp.componentWillReceiveProps()
+    }
+  }
+
+  // 设置组件的属性
   comp.props = props
   // 渲染组件
   renderComponent(comp)
@@ -63,6 +106,11 @@ function _render(vnode) {
   // 如果没传，什么也不做
   if (vnode === undefined || vnode === null || typeof vnode === 'boolean') {
     vnode = ''
+  }
+
+  if (typeof vnode === 'number') {
+    console.log('是数字啊')
+    vnode = String(vnode)
   }
 
   // 如果 vnode 仅仅是个字符串，则返回一个文本节点
@@ -94,6 +142,7 @@ function _render(vnode) {
     })
   }
 
+  console.log(vnode)
   // 递归渲染子节点
   vnode.childrens.forEach(child => {
     render(child, dom)
