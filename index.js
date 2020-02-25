@@ -62,8 +62,10 @@ class ClassComp extends React.Component {
   }
 }
 
+console.log(ele)
+
 ReactDOM.render(
-  <ClassComp name={'我是类组件'} />,
+  ele,
   document.querySelector('#root')
 )
 

@@ -10,6 +10,7 @@
  */
 
 import React from '../react'
+import { diff } from './diff'
 const ReactDOM = {
   render
 }
@@ -19,9 +20,10 @@ const ReactDOM = {
  * @param {any} vnode 虚拟 Node
  * @param {any} container 节点
  */
-function render(vnode, container) {
-  const dom = _render(vnode)
-  return container.appendChild(dom)
+function render(vnode, container, dom) {
+  return diff(dom, vnode, container)
+  // const dom = _render(vnode)
+  // return container.appendChild(dom)
 }
 
 function createComponent(comp, props) {
@@ -102,7 +104,6 @@ function setComponentProps(comp, props) {
  * @param {any} vnode JSX 对象
  */
 function _render(vnode) {
-
   // 如果没传，什么也不做
   if (vnode === undefined || vnode === null || typeof vnode === 'boolean') {
     vnode = ''
@@ -142,46 +143,12 @@ function _render(vnode) {
     })
   }
 
-  console.log(vnode)
   // 递归渲染子节点
   vnode.childrens.forEach(child => {
     render(child, dom)
   })
 
   return dom
-}
-
-// 设置属性
-function setAttribute(dom, key, value) {
-  if (key === 'className') {
-    key = 'class'
-  }
-
-  if (key === 'style') {
-    if (!value || typeof value === 'string') {
-      dom.style.cssText = value
-    } else if (value && typeof value === 'object') {
-      // {width: 20}
-      for (const _key in value) {
-        dom.style[_key] =
-          typeof value[_key] === 'number' ? value[_key] + 'px' : value[_key]
-      }
-    }
-  } else if (/on\w+/.test(key)) {
-    // 正则判断是否为事件，onClick, onBlur ...
-    key = key.toLowerCase()
-    dom[key] = value || ''
-  } else {
-    if (key in dom) {
-      dom[key] = value || ''
-    }
-
-    if (value) {
-      dom.setAttribute(key, value)
-    } else {
-      dom.removeAttribute(key)
-    }
-  }
 }
 
 export default ReactDOM
